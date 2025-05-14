@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PneumoScan</title>
+    <!-- Modern fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">PneumoScan</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about"><i class="fas fa-info-circle me-1"></i> About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#prevention"><i class="fas fa-shield-virus me-1"></i> Prevention</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="hero-section">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1>Pneumonia Chest X-Ray Classifier</h1>
+                    <p class="lead">Our advanced AI model helps detect pneumonia from chest X-ray images with 90% accuracy. Upload your X-ray image below to get a quick assessment.</p>
+                    <span class="accuracy-badge"><i class="fas fa-check-circle me-1"></i> 90% Accuracy</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="upload-card">
+            <form method="post" action="/" enctype="multipart/form-data">
+                <label class="form-label">Upload Chest X-Ray Image</label>
+                <label for="my_image" class="custom-file-upload">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <span class="upload-text">Drag & drop or click to upload</span>
+                    <span class="upload-info">Supported formats: JPG, PNG, DICOM</span>
+                </label>
+                <input type="file" class="form-control-file" id="my_image" name="image" accept="image/*" required>
+                <div class="mt-4 text-center">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search me-2"></i> Analyze Image
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        {% if prediction %}
+            <div class="prediction-container">
+                <h2 class="prediction-header">
+                    <i class="fas fa-clipboard-check prediction-icon"></i> Analysis Results
+                </h2>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="prediction-result">
+                            <i class="fas fa-search me-2"></i> Prediction: {{ prediction }} 
+                            <br>
+                            Confidence: {{ confidence }} %
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+
+        <div id="about" class="info-card info-section">
+            <h2 class="info-card-header">
+                <i class="fas fa-info-circle info-icon"></i> About Pneumonia
+            </h2>
+            <p>
+                Pneumonia is a common respiratory infection that can affect one or both lungs. It is characterized by inflammation of the air sacs in the lungs, leading to symptoms such as cough, difficulty breathing, chest pain, and fever. 
+            </p>
+            
+            <div class="pneumonia-types">
+                <div class="type-card">
+                    <h3 class="type-header"><i class="fas fa-virus me-2"></i>Viral Pneumonia</h3>
+                    <p>Caused by viruses such as influenza, respiratory syncytial virus (RSV), or coronavirus. Symptoms may include cough, fever, fatigue, and shortness of breath.</p>
+                </div>
+                
+                <div class="type-card">
+                    <h3 class="type-header"><i class="fas fa-bacteria me-2"></i>Bacterial Pneumonia</h3>
+                    <p>Caused by bacteria, including Streptococcus pneumoniae and Haemophilus influenzae. Symptoms often include cough with phlegm, chest pain, high fever, and rapid breathing.</p>
+                </div>
+                
+                <div class="type-card">
+                    <h3 class="type-header"><i class="fas fa-lungs me-2"></i>Normal Lung Condition</h3>
+                    <p>Absence of pneumonia or significant lung infections. Individuals experience normal breathing patterns and overall good respiratory health.</p>
+                </div>
+            </div>
+            
+            <p class="mt-4">
+                Early detection and treatment of pneumonia are crucial for effective management. Our model aids in the prompt identification of potential respiratory issues.
+            </p>
+        </div>
+
+        <div id="prevention" class="info-card">
+            <h2 class="info-card-header">
+                <i class="fas fa-shield-virus info-icon"></i> Prevention and Awareness
+            </h2>
+            <p>
+                While early detection is essential, preventing pneumonia is equally important. Here are some tips for pneumonia prevention:
+            </p>
+            <ul class="info-list">
+                <li>Practice good hand hygiene by washing hands regularly</li>
+                <li>Get vaccinated against common respiratory infections, including influenza and pneumococcal disease</li>
+                <li>Avoid close contact with individuals who have respiratory infections</li>
+                <li>Quit smoking, as it increases the risk of respiratory infections</li>
+                <li>Maintain a healthy lifestyle with regular exercise and a balanced diet to support overall immune health</li>
+            </ul>
+            <p>
+                Pneumonia is often preventable, and early detection significantly improves the chances of successful treatment. Stay informed, adopt healthy habits, and prioritize regular check-ups for a healthy respiratory system.
+            </p>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container text-center">
+            <p class="footer-text">Made with <i class="fas fa-heart" style="color: var(--danger);"></i> by IRISI-fstg</p>
+            <p class="footer-text">Get more details about Pneumonia at <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8152712/" class="footer-link">Pneumonia Research</a></p>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Show filename when file is selected
+        document.getElementById('my_image').addEventListener('change', function(e) {
+            if(e.target.files[0]) {
+                const fileName = e.target.files[0].name;
+                const uploadText = document.querySelector('.upload-text');
+                uploadText.textContent = fileName;
+            }
+        });
+        
+        // Handle drag and drop
+        const dropZone = document.querySelector('.custom-file-upload');
+        
+        ['dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragover', 'dragenter'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            dropZone.style.backgroundColor = 'rgba(94, 114, 228, 0.1)';
+            dropZone.style.borderColor = 'var(--primary)';
+        }
+        
+        function unhighlight() {
+            dropZone.style.backgroundColor = 'rgba(94, 114, 228, 0.03)';
+            dropZone.style.borderColor = 'rgba(94, 114, 228, 0.3)';
+        }
+        
+        dropZone.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            const fileInput = document.getElementById('my_image');
+            
+            fileInput.files = files;
+            
+            if(files[0]) {
+                const fileName = files[0].name;
+                const uploadText = document.querySelector('.upload-text');
+                uploadText.textContent = fileName;
+            }
+        }
+    </script>
+    <style>
+            :root {
+                --primary: #5e72e4;
+                --secondary: #8392ab;
+                --success: #2dce89;
+                --info: #11cdef;
+                --warning: #fb6340;
+                --danger: #f5365c;
+                --light: #f8f9fe;
+                --dark: #344767;
+                --neutral: #f4f5f7;
+                --neutral-light: #f9fafb;
+                --backdrop: rgba(255, 255, 255, 0.8);
+            }
+    
+            body {
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                background-color: var(--neutral-light);
+                color: var(--dark);
+                line-height: 1.6;
+            }
+    
+            .navbar {
+                background-color: rgba(255, 255, 255, 0.9);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                padding: 1rem 2rem;
+            }
+    
+            .navbar-brand {
+                font-weight: 700;
+                color: var(--primary) !important;
+                font-size: 1.4rem;
+            }
+    
+            .nav-link {
+                color: var(--dark) !important;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                padding: 0.5rem 1rem;
+                border-radius: 8px;
+                margin: 0 0.2rem;
+            }
+    
+            .nav-link:hover {
+                background-color: var(--neutral);
+                color: var(--primary) !important;
+            }
+    
+            .main-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 2rem;
+            }
+    
+            .hero-section {
+                background: linear-gradient(145deg, #ffffff, var(--neutral));
+                border-radius: 16px;
+                padding: 3rem;
+                margin-bottom: 3rem;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+            }
+    
+            h1 {
+                font-weight: 700;
+                color: var(--dark);
+                margin-bottom: 1.5rem;
+            }
+    
+            h2 {
+                font-weight: 600;
+                color: var(--dark);
+                margin-top: 2.5rem;
+                margin-bottom: 1.5rem;
+            }
+    
+            h3 {
+                font-weight: 600;
+                color: var(--dark);
+                margin-top: 2rem;
+                margin-bottom: 1rem;
+            }
+    
+            p {
+                color: var(--secondary);
+                font-size: 1.05rem;
+                line-height: 1.7;
+            }
+    
+            .upload-card {
+                background-color: white;
+                border-radius: 16px;
+                padding: 2rem;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+                margin-bottom: 2rem;
+                border: 1px solid rgba(0, 0, 0, 0.05);
+                transition: all 0.3s ease;
+            }
+    
+            .upload-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+            }
+    
+            .form-label {
+                font-weight: 500;
+                color: var(--dark);
+                margin-bottom: 0.75rem;
+            }
+    
+            .form-control-file {
+                display: none;
+            }
+    
+            .custom-file-upload {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                border: 2px dashed rgba(94, 114, 228, 0.3);
+                border-radius: 12px;
+                padding: 2rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                background-color: rgba(94, 114, 228, 0.03);
+            }
+    
+            .custom-file-upload:hover {
+                border-color: var(--primary);
+                background-color: rgba(94, 114, 228, 0.05);
+            }
+    
+            .upload-icon {
+                font-size: 2.5rem;
+                color: var(--primary);
+                margin-bottom: 1rem;
+            }
+    
+            .upload-text {
+                font-weight: 500;
+                color: var(--dark);
+            }
+    
+            .upload-info {
+                font-size: 0.9rem;
+                color: var(--secondary);
+                margin-top: 0.5rem;
+            }
+    
+            .btn-primary {
+                background-color: var(--primary);
+                border: none;
+                padding: 0.75rem 2rem;
+                font-weight: 500;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(94, 114, 228, 0.15);
+                transition: all 0.3s ease;
+            }
+    
+            .btn-primary:hover {
+                background-color: #4c5ec4;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 15px rgba(94, 114, 228, 0.25);
+            }
+    
+            .prediction-container {
+                background-color: white;
+                border-radius: 16px;
+                padding: 2rem;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+                margin-top: 3rem;
+                border: 1px solid rgba(0, 0, 0, 0.05);
+            }
+    
+            .prediction-header {
+                font-weight: 600;
+                color: var(--dark);
+                margin-bottom: 1.5rem;
+                display: flex;
+                align-items: center;
+            }
+    
+            .prediction-icon {
+                margin-right: 0.75rem;
+                color: var(--primary);
+            }
+    
+            .prediction-result {
+                font-size: 1.3rem;
+                font-weight: 600;
+                margin-bottom: 1rem;
+                padding: 0.75rem 1.5rem;
+                border-radius: 8px;
+                display: inline-block;
+            }
+    
+            .result-normal {
+                background-color: rgba(45, 206, 137, 0.1);
+                color: #2dce89;
+            }
+    
+            .result-viral {
+                background-color: rgba(251, 99, 64, 0.1);
+                color: #fb6340;
+            }
+    
+            .result-bacterial {
+                background-color: rgba(245, 54, 92, 0.1);
+                color: #f5365c;
+            }
+    
+            .info-card {
+                background-color: white;
+                border-radius: 16px;
+                padding: 2rem;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+                margin-bottom: 2rem;
+                border: 1px solid rgba(0, 0, 0, 0.05);
+            }
+    
+            .info-section {
+                margin-bottom: 2rem;
+            }
+    
+            .info-card-header {
+                font-weight: 600;
+                margin-bottom: 1.5rem;
+                color: var(--dark);
+                display: flex;
+                align-items: center;
+            }
+    
+            .info-icon {
+                margin-right: 0.75rem;
+                color: var(--primary);
+            }
+    
+            .info-list {
+                list-style-type: none;
+                padding-left: 1rem;
+                margin-bottom: 1.5rem;
+            }
+    
+            .info-list li {
+                position: relative;
+                padding-left: 1.5rem;
+                margin-bottom: 0.75rem;
+                color: var(--secondary);
+            }
+    
+            .info-list li::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 10px;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background-color: var(--primary);
+            }
+    
+            .uploaded-image {
+                width: 100%;
+                border-radius: 12px;
+                border: 1px solid rgba(0, 0, 0, 0.05);
+                margin-top: 1.5rem;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            }
+    
+            .key-value {
+                margin-bottom: 1rem;
+            }
+    
+            .key {
+                font-weight: 600;
+                color: var(--dark);
+                margin-bottom: 0.5rem;
+            }
+    
+            .value {
+                color: var(--secondary);
+                background-color: var(--neutral-light);
+                padding: 0.75rem 1rem;
+                border-radius: 8px;
+            }
+    
+            footer {
+                background-color: white;
+                padding: 2rem 0;
+                margin-top: 4rem;
+                border-top: 1px solid rgba(0, 0, 0, 0.05);
+            }
+    
+            .footer-text {
+                font-size: 0.95rem;
+                color: var(--secondary);
+            }
+    
+            .footer-link {
+                color: var(--primary);
+                font-weight: 500;
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
+    
+            .footer-link:hover {
+                color: #4c5ec4;
+                text-decoration: underline;
+            }
+    
+            .accuracy-badge {
+                background-color: rgba(94, 114, 228, 0.1);
+                color: var(--primary);
+                padding: 0.25rem 0.75rem;
+                border-radius: 20px;
+                font-weight: 500;
+                font-size: 0.9rem;
+                display: inline-block;
+                margin-left: 1rem;
+            }
+    
+            .pneumonia-types {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
+    
+            .type-card {
+                flex: 1;
+                min-width: 250px;
+                background-color: white;
+                border-radius: 12px;
+                padding: 1.5rem;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+                border: 1px solid rgba(0, 0, 0, 0.05);
+                transition: all 0.3s ease;
+            }
+    
+            .type-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            }
+    
+            .type-header {
+                font-weight: 600;
+                color: var(--dark);
+                margin-bottom: 1rem;
+                padding-bottom: 0.75rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+    
+            /* Responsive adjustments */
+            @media (max-width: 992px) {
+                .hero-section {
+                    padding: 2rem;
+                }
+            }
+    
+            @media (max-width: 768px) {
+                .hero-section {
+                    padding: 1.5rem;
+                }
+                
+                .pneumonia-types {
+                    flex-direction: column;
+                }
+                
+                .type-card {
+                    width: 100%;
+                }
+            }
+    </style>
+</body>
+</html>
